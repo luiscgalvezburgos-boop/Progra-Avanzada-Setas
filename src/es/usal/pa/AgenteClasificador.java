@@ -44,8 +44,8 @@ public class AgenteClasificador extends Agent {
         dfd.setName(getAID());
         ServiceDescription sd = new ServiceDescription();
         sd.setName("Clasificador");
-        sd.setType("clasificar");
-        sd.addOntologies("ontologia");
+        sd.setType("clasificar"); //Tener en cuenta para el agenteCliente
+        sd.addOntologies("ontologia"); //Tener en ceunta para el agenteCliente
         dfd.addServices(sd);
 
         try {
@@ -81,7 +81,7 @@ class CyclicBehaviourClasificar extends CyclicBehaviour {
     private DecisionTree decisionTree;
     private DecisionTreeNavegar2 navegador;
     private AID cliente = null;
-    private String conversationId;
+    private String conversationId; //El cliente y el clasificador tienen uno distinto para cada seta y se mantiene durante una clasificacion
 
     public CyclicBehaviourClasificar(Agent agente, DecisionTree decisionTree) {
         super(agente);
@@ -119,7 +119,7 @@ class CyclicBehaviourClasificar extends CyclicBehaviour {
             }
 
             String texto = respuesta.getContent();
-            navegador.navegarNodo(texto.equals("si"));
+            navegador.navegarNodo(texto.equals("si")); //El cliente debe comunicarse con el clasificador devolviendo "si" o "no"
         }
 
         ACLMessage mensaje = new ACLMessage(ACLMessage.INFORM);
@@ -127,10 +127,11 @@ class CyclicBehaviourClasificar extends CyclicBehaviour {
         mensaje.addReceiver(cliente);
         mensaje.setOntology("ontologia");
         mensaje.setConversationId(conversationId);
-
+        
+        //Se obtiene la clasificacion y se envia O pregunta por la siguiente condicion
         if (navegador.esNodoDecision()) {
             String clasificacion = navegador.getClasificacion("class");
-            mensaje.setContent(clasificacion);
+            mensaje.setContent(clasificacion); 
             myAgent.send(mensaje);
             System.out.println("Clasificación " + conversationId + ": " + clasificacion);
             cliente = null;
