@@ -10,6 +10,8 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
+//Run Configuration usada
+//-main false -host 127.0.0.1 cliente1:es.usal.pa.AgenteCliente
 
 public class AgenteCliente extends Agent {
 	

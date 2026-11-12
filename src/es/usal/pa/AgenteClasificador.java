@@ -18,6 +18,9 @@ import smile.io.Read;
 import smile.model.cart.DecisionTreeNavegar2;
 import smile.model.cart.SplitRule;
 
+// Run Configuration usada
+//-gui clasificador:es.usal.pa.AgenteClasificador
+
 public class AgenteClasificador extends Agent {
 
     private static final long serialVersionUID = 1L;
@@ -30,7 +33,7 @@ public class AgenteClasificador extends Agent {
         DecisionTree decisionTree;
         try {
             DataFrame dataFrame = Read.arff("mushrooms.arff");
-            dataFrame = dataFrame.dropna();
+            dataFrame = dataFrame.dropna(); //Eliminación de filas que le falten datos
             Options options = new Options(SplitRule.ENTROPY,
                     Integer.MAX_VALUE, Integer.MAX_VALUE, 1);
             decisionTree = DecisionTree.fit(Formula.of("class~."), dataFrame, options);
